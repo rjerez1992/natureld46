@@ -1,5 +1,3 @@
-![Logo](https://i.imgur.com/fPIC9Ru.png)
-
 # Nature LD46
 In nature you play as a nature spirit. It is your job to keep yourself and the civilization alive. Use your power to provide food, resources, change the temperature or release deadly diseases. Keep tracking of everything you and the civilization needs and hope the civilization reaches it’s modern age by the year 100.
 
