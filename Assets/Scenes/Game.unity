@@ -35945,7 +35945,7 @@ Canvas:
   m_RenderMode: 1
   m_Camera: {fileID: 519420031}
   m_PlaneDistance: 100
-  m_PixelPerfect: 1
+  m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -55961,7 +55961,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 9.379032
+  m_padding: 9.478571
   m_canvasRenderer: {fileID: 1865571934}
   m_TextComponent: {fileID: 256842939}
   m_materialReferenceIndex: 1

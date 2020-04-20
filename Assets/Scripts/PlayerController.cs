@@ -34,7 +34,17 @@ public class PlayerController : MonoBehaviour
 
     public PlayerAction CurrentIntent;
     private ActionManager SourceAction;
-    
+
+    public float WillRegenerationBaseRate = 1f;
+
+    private void Awake()
+    {
+        int Difficulty = PlayerPrefs.GetInt("Difficulty", 1);
+        if (Difficulty == 0)
+        {
+            WillRegenerationBaseRate = 1.5f;
+        }
+    }
 
     void Start()
     {
@@ -44,7 +54,7 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
-        CurrentWill += (WillRecoveryRate) * Time.deltaTime;
+        CurrentWill += (WillRecoveryRate * WillRegenerationBaseRate) * Time.deltaTime;
         if (CurrentWill > MaximumWill) {
             CurrentWill = MaximumWill;
         }
@@ -54,6 +64,9 @@ public class PlayerController : MonoBehaviour
 
     public void IncreasePollution(float n) {
         CurrentPollution += n;
+        if (CurrentPollution > 1) {
+            GameController.End(GameController.EndTrigger.Pollution);
+        }
     }
 
     public bool SetIntent(PlayerAction action, ActionManager source) {

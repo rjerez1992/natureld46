@@ -30,6 +30,7 @@ public class CivilizationController : MonoBehaviour
     public float EarthquakeMortalityBaseRate = 1f;
     public float WildfireMortalityBaseRate = 1f;
     public float StormMortalityBaseRate = 1f;
+   
 
     [Header("UI Sources")]
     public TextMeshProUGUI StageText;
@@ -106,6 +107,28 @@ public class CivilizationController : MonoBehaviour
     private List<TileController> GatheringTiles;
     private TileController InitialTile;
     private List<TileController> CivilizationTiles;
+
+    private void Awake()
+    {
+        int Difficulty = PlayerPrefs.GetInt("Difficulty", 1);
+        if (Difficulty == 0) {
+             PopulationBaseIncreaseRate = 1.25f;
+             PopulationBaseDecreaseRate = 0.75f;
+             AnimalFoodBaseIncreaseRate = 1.75f;
+             WoodResourceBaseIncreaseRate = 2f;
+             RockResourceBaseIncreaseRate = 2f;
+             TechnologyBaseIncreaseRate = 3f;
+             PollutionGenerationBaseRate = 0.1f;
+             FoodConsumptionBaseRate = 0.5f;
+             ResourceConsumptionBaseRate = 0.5f;
+             ExpansionBaseProbability = 3f;
+             VirusMortalityBaseRate = 0.5f;
+             BacteriaMortalityBaseRate = 0.5f;
+             EarthquakeMortalityBaseRate = 0.25f;
+             WildfireMortalityBaseRate = 0.25f;
+             StormMortalityBaseRate = 0.25f;
+        }
+    }
 
     void Start()
     {
@@ -379,12 +402,16 @@ public class CivilizationController : MonoBehaviour
     }
 
     private void Pollute() {
-        //TODO: Reduce pollution by the ammount of tree tiles
-        PollutionGeneration = (Population * AgePollutionGeneration * Technology);
+        int TreeTiles = GatheringTiles.Where(x => x.Type == TileController.TileType.Forest).ToList().Count;
+        PollutionGeneration = ((Population/(TreeTiles+1)) * AgePollutionGeneration * Technology);
 
         //NOTE:Lesser pollution doesn't affect the environment
-        if (PollutionGeneration >= 0.0001)
+        if (PollutionGeneration >= 0.0001f)
         {
+            //NOTE: Sets the max pollution increase
+            if (PollutionGeneration >= 0.0025f) { 
+                PollutionGeneration = 0.0025f;
+            }
             Player.IncreasePollution(PollutionGeneration);
         }
     }
