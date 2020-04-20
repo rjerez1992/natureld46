@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Terrain
+    uniqueID: 47438295
+    locked: 0
+  - name: Overterrain
+    uniqueID: 1236218005
+    locked: 0
+  - name: Overterrain2
+    uniqueID: 4014229679
+    locked: 0
+  - name: WorldText
+    uniqueID: 4218573305
+    locked: 0
+  - name: UI
+    uniqueID: 1470765113
+    locked: 0
