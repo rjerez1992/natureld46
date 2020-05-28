@@ -15,6 +15,7 @@ public class TileController : MonoBehaviour
     public TextMeshProUGUI TileStat;
     public GameObject TileCanvasGameObject;
     public GameObject WorkersAnimation;
+    public TextMeshProUGUI WorkersPercentageLeft;
 
     private static Color NormalColor = new Color(1f, 1f, 1f);
     private static Color OverlayColor = new Color(0.8f, 0.8f, 0.8f);
@@ -43,7 +44,9 @@ public class TileController : MonoBehaviour
 
     void Update()
     {
-
+        if (HasWorkersOn) {
+            WorkersPercentageLeft.text = ((int)(RemainingResources * 100)) + "%";
+        }
     }
 
     private void SetRowAndColumn() {

@@ -41,6 +41,9 @@ public class CivilizationController : MonoBehaviour
     public TextMeshProUGUI FoodText;
     public TextMeshProUGUI ResourcesText;
     public TextMeshProUGUI TechnologyText;
+    public TextMeshProUGUI PopulationChangeText;
+    public TextMeshProUGUI FoodChangeText;
+    public TextMeshProUGUI ResourcesChangeText;
     public GameObject BacteriaIndicator;
     public GameObject VirusIndicator;
 
@@ -80,6 +83,7 @@ public class CivilizationController : MonoBehaviour
     private float AgeAdvanceTechnologyRequeriment;
     private float AgeAdvanceYearRequeriment;
     private float AgePopulationMaximumPerCity;
+    private string AgeIndicatorText;
 
     //NOTE: Calculated from base and environment
     private float PopulationIncrease;
@@ -104,6 +108,7 @@ public class CivilizationController : MonoBehaviour
     private float CurrentElapsedTime = 0;
     public GameController Game;
     public PlayerController Player;
+    public AgeIndicatorController AgeIndicator;
     private List<TileController> GatheringTiles;
     private TileController InitialTile;
     private List<TileController> CivilizationTiles;
@@ -137,6 +142,9 @@ public class CivilizationController : MonoBehaviour
         SetStage(Stage.OldAge);
         SetInitialTile();
         SetDistanceFromCenter();
+        PopulationChangeText.text = "0";
+        FoodChangeText.text = "0";
+        ResourcesChangeText.text = "0";
         UpdateUI();
     }
 
@@ -188,6 +196,10 @@ public class CivilizationController : MonoBehaviour
     }
 
     void DoProgress() {
+        float PopulationChange = Population;
+        float FoodChange = Food;
+        float ResourceChage = Resources;
+
         ConsumeFood();
         ConsumeResources();
 
@@ -199,6 +211,15 @@ public class CivilizationController : MonoBehaviour
         Pollute();
 
         Advance();
+
+        PopulationChange = Population - PopulationChange;
+        FoodChange = Food - FoodChange;
+        ResourceChage = Resources - ResourceChage;
+
+        PopulationChangeText.text = (PopulationChange > 0 ? "+": "")+(Math.Round(PopulationChange, 2)).ToString();
+        FoodChangeText.text = (FoodChange > 0 ? "+" : "") + (Math.Round(FoodChange, 2)).ToString();
+        ResourcesChangeText.text = (ResourceChage > 0 ? "+" : "") + (Math.Round(ResourceChage, 2)).ToString();
+
         UpdateUI();
     }
 
@@ -262,7 +283,7 @@ public class CivilizationController : MonoBehaviour
         PopulationIncrease = (Population / 2) * AgePopulationIncrease * Game.TemperaturePopulationIncreaseMultiplier;
         //NOTE: Each person have a X change of dying
         PopulationDecrease = Population * AgePopulationDecrease * Game.TemperaturePopulationDecreaseMultiplier;
-
+        
         if (IsStarving)
         {
             IncreaseModifier *= AgePopulationStarvingIncreaseMultiplier;
@@ -298,7 +319,20 @@ public class CivilizationController : MonoBehaviour
         }
 
         Population = Population + IncreaseModifier * (PopulationIncrease * PopulationBaseIncreaseRate);
-        Population = Population - DecreaseModifier * (PopulationDecrease * PopulationBaseDecreaseRate);
+
+        //NOTE: This ensures that diseases can easily kill the whole civilization when pop is low
+        if (HasVirus || HasBacteria)
+        {
+            float decrease = DecreaseModifier * (PopulationDecrease * PopulationBaseDecreaseRate);
+            if (decrease < 1)
+            {
+                decrease = 1;
+            }
+            Population = Population - decrease;
+        }
+        else { 
+            Population = Population - DecreaseModifier * (PopulationDecrease * PopulationBaseDecreaseRate);
+        }
 
         if (Population < 1)
         {
@@ -486,17 +520,18 @@ public class CivilizationController : MonoBehaviour
                 AgeTechnologyIncrease = 0.0000025f;
                 AgeExpansionRequiredPeople = 500;
                 AgeExpansionRequiredResources = 1000;
-                AgeExpansionRequiredTechnology = 0.1f;
-                AgeExpansionMaxQuantity = 6;
+                AgeExpansionRequiredTechnology = 0.05f;
+                AgeExpansionMaxQuantity = 4;
                 AgePollutionGeneration = 0.00000025f;
                 AgeBacteriaMediaDuration = 12;
                 AgeVirusMediaDuration = 5;
-                AgeAdvanceRequerimentPopulation = 300; 
-                AgeAdvanceRequerimentFood = 300;  
-                AgeAdvanceResourceRequeriment = 300; 
+                AgeAdvanceRequerimentPopulation = 3000; 
+                AgeAdvanceRequerimentFood = 3000;  
+                AgeAdvanceResourceRequeriment = 5000; 
                 AgeAdvanceTechnologyRequeriment = 0.03f;
                 AgeAdvanceYearRequeriment = 10; 
-                AgePopulationMaximumPerCity = 1000;
+                AgePopulationMaximumPerCity = 600;
+                AgeIndicatorText = "Age 1";
                 break;
             case Stage.MiddleAge:
                 Game.Display("The people has avanced. The game has changed!");
@@ -536,6 +571,7 @@ public class CivilizationController : MonoBehaviour
                 AgeAdvanceTechnologyRequeriment = 0.5f;
                 AgeAdvanceYearRequeriment = 40;
                 AgePopulationMaximumPerCity = 3000;
+                AgeIndicatorText = "Get ";
                 break;
             case Stage.ModernAge:
                 Game.Display("The future is now. Things go crazy out of nothing");
@@ -575,8 +611,10 @@ public class CivilizationController : MonoBehaviour
                 AgeAdvanceTechnologyRequeriment =0;
                 AgeAdvanceYearRequeriment = 0;
                 AgePopulationMaximumPerCity = 20000;
+                AgeIndicatorText = "Age 3";
                 break;
         }
+        AgeIndicator.SetText(AgeIndicatorText);
     }
 
     public void UpdateTilesOnAgeChange() {

@@ -188,4 +188,36 @@ public class GameController : MonoBehaviour
     public void OnEndGame() {
         SceneManager.LoadScene("Menu");
     }
+
+    /***
+     * TODO:
+     * changes indicator X
+    civilization improvement requeriments (DELAYED)
+    show percentages on tiles
+    fix requeriments for civilization expansion
+    linear temperature change (decrease range) (40-20-0°)
+    nerf stones
+    attacked farming camps!
+    make slots get available as we progress (civilization and expansion)
+    game duration improvement
+    instructions
+    NOTE: Use this values on the text
+    //Make age indicator set text using civilization values
+    Population  >= AgeExpansionRequiredPeople * CivilizationSize &&
+    Resources  >= AgeExpansionRequiredResources * CivilizationSize &&
+    Technology  >= AgeExpansionRequiredTechnology * CivilizationSize &&
+    AgeExpansionRequiredPeople = 500;
+    AgeExpansionRequiredResources = 1000;
+    AgeExpansionRequiredTechnology = 0.05f;
+    AgeExpansionMaxQuantity = 4;
+    AgePollutionGeneration = 0.00000025f;
+    AgeBacteriaMediaDuration = 12;
+    AgeVirusMediaDuration = 5;
+    AgeAdvanceRequerimentPopulation = 3000; 
+    AgeAdvanceRequerimentFood = 3000;  
+    AgeAdvanceResourceRequeriment = 5000; 
+    AgeAdvanceTechnologyRequeriment = 0.03f;
+    AgeAdvanceYearRequeriment = 10; 
+    AgePopulationMaximumPerCity = 600;
+    */
 }
