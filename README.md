@@ -1,6 +1,9 @@
 # Nature LD46
 In nature you play as a nature spirit. It is your job to keep yourself and the civilization alive. Use your power to provide food, resources, change the temperature or release deadly diseases. Keep tracking of everything you and the civilization needs and hope the civilization reaches it’s modern age by the year 100.
 
+### [:joystick: Play on Itch.io](https://rjerez1992.itch.io/nature-ld46)
+<br/>
+
 ![Screenshot](https://static.jam.vg/raw/2ca/c2/z/2c9eb.png)
 
 **As a nature spirit you can…**
